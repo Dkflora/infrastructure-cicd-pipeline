@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+
 permissions:
   id-token: write
   contents: read
@@ -17,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: 'us-east-1' # Set your desired AWS region
+      AWS_REGION: 'us-east-1'
       TF_VERSION: '1.4.0'
-      TF_LOG: ERROR           # Set to DEBUG for more verbose logs
+      TF_LOG: ERROR
 
     steps:
       - name: 'Checkout GitHub repository'
@@ -47,23 +48,20 @@ jobs:
 
       - name: 'Terraform Plan'
         run: terraform plan -out=tfplan
+
       - name: 'Terraform Plan Destroy'
         run: terraform plan -destroy -out=tfplan-destroy
 
       - name: 'Terraform Apply Destroy'
         run: terraform apply -auto-approve tfplan-destroy
 
+      # ❌ REMOVE / COMMENT OUT THIS APPLY STEP
       # - name: 'Terraform Apply'
       #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       #   run: terraform apply -auto-approve tfplan
       #   env:
       #     TF_LOG: ERROR
 
-    # #   # Uncomment these if you want destroy steps
-    #   - name: 'Terraform Plan Destroy'
-    #     run: terraform plan -destroy -out=tfplan-destroy
 
-    #   - name: 'Terraform Apply Destroy'
-    #     run: terraform apply -auto-approve tfplan-destroy
 
 
