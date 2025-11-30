@@ -36,17 +36,22 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      # - name: 'Terraform Init'
-      #   run: terraform init -upgrade
+      - name: 'Terraform Init'
+        run: terraform init -upgrade
 
-      # - name: 'Terraform Format'
-      #   run: terraform fmt
+      - name: 'Terraform Format'
+        run: terraform fmt
 
-      # - name: 'Terraform Validate'
-      #   run: terraform validate
+      - name: 'Terraform Validate'
+        run: terraform validate
 
-      # - name: 'Terraform Plan'
-      #   run: terraform plan -out=tfplan
+      - name: 'Terraform Plan'
+        run: terraform plan -out=tfplan
+      - name: 'Terraform Plan Destroy'
+        run: terraform plan -destroy -out=tfplan-destroy
+
+      - name: 'Terraform Apply Destroy'
+        run: terraform apply -auto-approve tfplan-destroy
 
       # - name: 'Terraform Apply'
       #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -54,11 +59,11 @@ jobs:
       #   env:
       #     TF_LOG: ERROR
 
-    #   # Uncomment these if you want destroy steps
-      - name: 'Terraform Plan Destroy'
-        run: terraform plan -destroy -out=tfplan-destroy
+    # #   # Uncomment these if you want destroy steps
+    #   - name: 'Terraform Plan Destroy'
+    #     run: terraform plan -destroy -out=tfplan-destroy
 
-      - name: 'Terraform Apply Destroy'
-        run: terraform apply -auto-approve tfplan-destroy
+    #   - name: 'Terraform Apply Destroy'
+    #     run: terraform apply -auto-approve tfplan-destroy
 
 
