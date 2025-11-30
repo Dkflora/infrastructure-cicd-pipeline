@@ -45,7 +45,7 @@ jobs:
     # Step 4: Initializes Terraform with S3 backend config (bucket and key only; no DynamoDB locking).
     - name: Terraform init
       run: terraform init \
-            -backend-config="bucket=${{ secrets.AWS_ROLE_ARN }}" \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
             -backend-config="key=uat/terraform.tfstate"
 
     # Step 5: Validates Terraform configuration for syntax and logic errors.
